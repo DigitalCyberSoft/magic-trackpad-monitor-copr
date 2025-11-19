@@ -47,9 +47,11 @@ srpm:
 	# Install gcc and X11 development libraries for xidle compilation
 	@echo "=== Installing build dependencies ==="; \
 	if command -v dnf >/dev/null 2>&1; then \
-		dnf install -y gcc libXScrnSaver-devel || (echo "ERROR: Failed to install build dependencies with dnf" && exit 1); \
+		dnf install -y gcc || (echo "ERROR: Failed to install gcc" && exit 1); \
+		dnf install -y libXScrnSaver-devel || dnf install -y libXss-devel || (echo "ERROR: Failed to install X11 Screensaver libraries" && exit 1); \
 	elif command -v yum >/dev/null 2>&1; then \
-		yum install -y gcc libXScrnSaver-devel || (echo "ERROR: Failed to install build dependencies with yum" && exit 1); \
+		yum install -y gcc || (echo "ERROR: Failed to install gcc" && exit 1); \
+		yum install -y libXScrnSaver-devel || yum install -y libXss-devel || (echo "ERROR: Failed to install X11 Screensaver libraries" && exit 1); \
 	else \
 		echo "ERROR: No package manager found to install build dependencies"; \
 		exit 1; \
